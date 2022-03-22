@@ -6,10 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TRD2022.Api.Entities.Cross;
 
 namespace TRD2022.Api
 {
@@ -25,6 +27,9 @@ namespace TRD2022.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var appConfiguration = new AppSettings();
+            new ConfigureFromConfigurationOptions<AppSettings>(Configuration.GetSection("AppConfiguration")).Configure(appConfiguration);
+            services.AddSingleton(appConfiguration);
             services.AddControllers();
         }
 
