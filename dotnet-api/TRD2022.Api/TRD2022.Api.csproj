@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Binance.Net" Version="7.2.7" />
+    <PackageReference Include="MySql.Data" Version="8.0.28" />
   </ItemGroup>
 
 
