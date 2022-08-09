@@ -20,12 +20,12 @@ const produce = async () => {
                 messages: [
                     {
                         key: String(i),
-                        value: "message number "+ i
+                        value: "mensagem de numero "+ i
                     }
                 ]
             });
 
-            console.log("messages sent: " + i);
+            console.log("### messages sent: " + i);
             i++;
         } catch (err) {
             console.error("error writing message: ", err)
