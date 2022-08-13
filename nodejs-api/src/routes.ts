@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { KafkaProvider } from "./providers/KafkaProvider";
+import {kafkaController} from "./controllers/index"
 
 const router = Router();
-const kafka = new KafkaProvider();
 
 router.get('/events', (request, response) => {
-    return response.json(kafka.consume("PARAM TESTE"));
+    return response.json(kafkaController.get(request, response));
 });
 
 export { router };

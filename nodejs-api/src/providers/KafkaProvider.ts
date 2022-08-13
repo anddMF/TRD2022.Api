@@ -17,15 +17,16 @@ export class KafkaProvider {
             await consumer.connect();
             console.log("\n\n####### CONSUMER CONECTOU\n")
             await consumer.subscribe({ topic: this.topic });
-            
             await consumer.run({
                 eachMessage: async (messagePayload: EachMessagePayload) => {
                     const { topic, partition, message } = messagePayload
                     const prefix = `\n\n#### ${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
                     console.log(`- ${prefix} ${message.key}#${message.value}`)
                 }
+            }).then(x => {
+                console.log("\n###### THEN THEN THEN")
+                return 'then then then';
             })
-
         } catch (error) {
             console.log('\n\n####Error no consume: ', error);
         }
