@@ -10,7 +10,7 @@ export class KafkaProvider {
 
     constructor() { }
 
-    public async consume(request): Promise<void> {
+    public async consume(request): Promise<Array<any>> {
         let response = [];
         try {
             let consumer = this.kafka.consumer({ groupId: this.clientId });
@@ -22,11 +22,13 @@ export class KafkaProvider {
                     const { topic, partition, message } = messagePayload
                     const prefix = `\n\n#### ${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
                     console.log(`- ${prefix} ${message.key}#${message.value}`)
+                    response.push(message.value);
                 }
-            }).then(x => {
-                console.log("\n###### THEN THEN THEN")
-                return 'then then then';
+            }).finally(() => {
+                console.log("\n#######CAIU NO FINALLY")
             })
+            console.log('\n#### CAIU RESPONSE: ', response)
+            return response;
         } catch (error) {
             console.log('\n\n####Error no consume: ', error);
         }

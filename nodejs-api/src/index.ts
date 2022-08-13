@@ -6,6 +6,6 @@ provider.produce().catch((err) => {
     console.error("\n\n###### Error no produce INDEX: ", err);
 });
 
-provider.consume("MANDEI PARAM").catch((err) => {
-    console.error("error in consumer: ", err);
-});
+// provider.consume("MANDEI PARAM").catch((err) => {
+//     console.error("error in consumer: ", err);
+// });
