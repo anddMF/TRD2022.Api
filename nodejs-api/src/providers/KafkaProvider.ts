@@ -10,7 +10,8 @@ export class KafkaProvider {
 
     constructor() { }
 
-    public async consume(request): Promise<Array<any>> {
+    public async consume(request): Promise<void> {
+        // TODO: in the future the request will come with a specific value for the topic
         let response = [];
         try {
             let consumer = this.kafka.consumer({ groupId: this.clientId });
@@ -24,11 +25,7 @@ export class KafkaProvider {
                     console.log(`- ${prefix} ${message.key}#${message.value}`)
                     response.push(message.value);
                 }
-            }).finally(() => {
-                console.log("\n#######CAIU NO FINALLY")
             })
-            console.log('\n#### CAIU RESPONSE: ', response)
-            return response;
         } catch (error) {
             console.log('\n\n####Error no consume: ', error);
         }
@@ -46,39 +43,6 @@ export class KafkaProvider {
             }
         } catch (error) {
             console.log('Error no produce: ', error);
-        }
-    }
-
-    public async produceBatch(): Promise<void> {
-        const producer = this.kafka.producer();
-        let messages = [];
-
-        for (let i = 0; i < 4; i++) {
-            messages.push('MENSAGEM NUMERO PA ' + i)
-        }
-
-        try {
-            await producer.connect();
-            console.log("\n\n####### PRODUCER CONECTOU\n")
-
-            const kafkaMessages: Array<Message> = messages.map((message) => {
-                return {
-                    value: JSON.stringify(message)
-                }
-            })
-
-            const topicMessages: TopicMessages = {
-                topic: this.topic,
-                messages: kafkaMessages
-            }
-
-            const batch: ProducerBatch = {
-                topicMessages: [topicMessages]
-            }
-
-            await producer.sendBatch(batch)
-        } catch (error) {
-            console.log('\n\n###### Error no produce provider: ', error);
         }
     }
 }
