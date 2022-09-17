@@ -1,0 +1,2 @@
+### FIND 
+GET http://localhost:3333/events/1
