@@ -1,7 +1,7 @@
-import { KafkaProvider } from '../providers/KafkaProvider';
-import { KafkaController } from './kafkaController';
+import { MySqlTradeEventRepository } from '../repositories/implementations/MySqlTradeEventRepository';
+import { TradeEventController } from './TradeEventController';
 
-const kafkaProvider = new KafkaProvider;
-const kafkaController = new KafkaController(kafkaProvider);
+const repository = new MySqlTradeEventRepository;
+const tradeController = new TradeEventController(repository);
 
-export { kafkaController };
+export { tradeController };
