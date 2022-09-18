@@ -1,4 +1,4 @@
-import { TradeEvent } from './../entities/TradeEvent';
+import { Model } from 'sequelize';
 export interface ITradeEventRepository {
-    findById(): Promise<TradeEvent>;
+    findById(id: number): Promise<Model<any, any>[]>;
 }

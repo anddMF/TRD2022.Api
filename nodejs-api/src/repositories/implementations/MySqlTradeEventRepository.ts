@@ -1,12 +1,11 @@
 import { DataTypes, Model, ModelCtor, Sequelize } from 'sequelize';
-import { TradeEvent } from '../../entities/TradeEvent';
 import { ITradeEventRepository } from './../ITradeEventRepository';
-export class MySqlTradeEventRepository {
+
+export class MySqlTradeEventRepository implements ITradeEventRepository {
 
     constructor() {}
 
-    async findById(id: number) {
-        console.log('##### ID: ' + id)
+    async findById(id: number) : Promise<Model<any, any>[]> {
         const eventTable = this.getTableDefinition(this.getDatabase());
 
         const response = await eventTable.findAll({
