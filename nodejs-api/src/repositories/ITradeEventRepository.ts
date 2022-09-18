@@ -1,4 +1,4 @@
 import { Model } from 'sequelize';
 export interface ITradeEventRepository {
-    findById(id: number): Promise<Model<any, any>[]>;
+    findByClientId(clientId: number): Promise<Model<any, any>[]>;
 }
