@@ -5,12 +5,12 @@ export class MySqlTradeEventRepository implements ITradeEventRepository {
 
     constructor() {}
 
-    async findById(id: number) : Promise<Model<any, any>[]> {
+    async findByClientId(clientId: number) : Promise<Model<any, any>[]> {
         const eventTable = this.getTableDefinition(this.getDatabase());
 
         const response = await eventTable.findAll({
             where: {
-                ID_CLIENT: id
+                ID_CLIENT: clientId
             }
         });
         
