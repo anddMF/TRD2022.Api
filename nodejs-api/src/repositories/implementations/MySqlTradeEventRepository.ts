@@ -1,4 +1,4 @@
-import { DataTypes, Model, ModelCtor, Sequelize } from 'sequelize';
+import { DataTypes, Model, ModelCtor, Op, Sequelize } from 'sequelize';
 import { ITradeEventRepository } from './../ITradeEventRepository';
 
 export class MySqlTradeEventRepository implements ITradeEventRepository {
@@ -7,10 +7,26 @@ export class MySqlTradeEventRepository implements ITradeEventRepository {
 
     async findByClientId(clientId: number) : Promise<Model<any, any>[]> {
         const eventTable = this.getTableDefinition(this.getDatabase());
-
+        
+        const baseDate = await eventTable.findOne({
+            where: {
+                ID_CLIENT: clientId,
+                ID_EVENT_TYPE: 5 // 'START'
+            },
+            order: [
+                ['MOMENT','DESC']
+            ],
+            attributes: ['MOMENT']
+        })
+        let startDate = baseDate.get();
+        console.log(startDate.MOMENT);
+        
         const response = await eventTable.findAll({
             where: {
-                ID_CLIENT: clientId
+                ID_CLIENT: clientId,
+                MOMENT: {
+                    [Op.gte]: startDate.MOMENT
+                }
             },
             order: [
                 ['MOMENT','DESC']
@@ -18,6 +34,10 @@ export class MySqlTradeEventRepository implements ITradeEventRepository {
         });
         
         return response;
+    }
+
+    private async getStartDate(clientId: number) {
+        
     }
     
     private getDatabase(): Sequelize {
