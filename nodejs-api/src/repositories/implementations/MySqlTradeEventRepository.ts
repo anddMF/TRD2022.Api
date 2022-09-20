@@ -11,7 +11,10 @@ export class MySqlTradeEventRepository implements ITradeEventRepository {
         const response = await eventTable.findAll({
             where: {
                 ID_CLIENT: clientId
-            }
+            },
+            order: [
+                ['MOMENT','DESC']
+            ]
         });
         
         return response;
