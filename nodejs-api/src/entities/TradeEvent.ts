@@ -18,7 +18,9 @@ export enum EventType {
     BUY = 1,
     SELL = 2,
     INFO = 3,
-    ERROR = 4
+    ERROR = 4,
+    START = 5,
+    FINISH = 6
 }
 
 export enum RecommendationType {
