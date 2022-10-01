@@ -8,6 +8,7 @@ export class MySqlTradeEventRepository implements ITradeEventRepository {
     async findByClientId(clientId: number) : Promise<Model<any, any>[]> {
         const eventTable = this.getTableDefinition(this.getDatabase());
         
+        // get the datetime from the start of the robot
         const baseDate = await eventTable.findOne({
             where: {
                 ID_CLIENT: clientId,
@@ -34,10 +35,6 @@ export class MySqlTradeEventRepository implements ITradeEventRepository {
         });
         
         return response;
-    }
-
-    private async getStartDate(clientId: number) {
-        
     }
     
     private getDatabase(): Sequelize {
