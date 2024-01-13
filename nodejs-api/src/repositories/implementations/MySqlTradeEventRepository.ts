@@ -19,6 +19,11 @@ export class MySqlTradeEventRepository implements ITradeEventRepository {
             ],
             attributes: ['MOMENT']
         })
+        console.log("BASE DATE", baseDate)
+
+        if(baseDate == null)
+            return ;
+
         let startDate = baseDate.get();
         console.log(startDate.MOMENT);
         
