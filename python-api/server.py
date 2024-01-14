@@ -31,6 +31,7 @@ def ping():
 
 @app.route('/events')
 @cross_origin(headers=["Content-Type", "Authorization"])
+# @requires_auth
 def get_events():
     try:
         proc_result = []
