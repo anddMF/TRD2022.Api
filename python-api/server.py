@@ -20,7 +20,7 @@ conn = mysql.connector.connect(
     password=os.getenv('SQL_PASSWORD'),
     database=os.getenv('SQL_DATABASE')
 )
-cursor = conn.cursor()
+cursor = conn.cursor(dictionary=True)
 
 
 @app.route('/ping')
@@ -41,9 +41,7 @@ def get_events():
             proc_result = result.fetchall()
             proc_description = result.description
             
-        column_names = [column[0] for column in proc_description]
-        print(proc_result)
-        # still needs to add the column names in the response json
+        # column_names = [column[0] for column in proc_description]
         response = jsonify(proc_result)
         return response
     except Exception as e:
