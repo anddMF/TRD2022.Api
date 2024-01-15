@@ -47,6 +47,6 @@ def get_events():
         return response
     except Exception as e:
         print(e)
-        return jsonify(e), 500
+        return e.msg, 500
     finally:
         conn.close()
