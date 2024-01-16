@@ -1,26 +1,18 @@
-import os
 from dotenv import load_dotenv
 load_dotenv()
-from six.moves.urllib.request import urlopen
-from service.auth_service import requires_auth
-from jose import jwt
-from flask_cors import cross_origin
-from flask import Flask, jsonify, request, _request_ctx_stack
-import json
-from functools import wraps
-import mysql.connector
+import service.events_service as events_svc
 from mysql.connector import Error
+import mysql.connector
+from functools import wraps
+import json
+from flask import Flask, jsonify, request, _request_ctx_stack
+from flask_cors import cross_origin
+from jose import jwt
+from service.auth_service import requires_auth
+from six.moves.urllib.request import urlopen
+import os
 
 app = Flask(__name__)
-
-conn = mysql.connector.connect(
-    host=os.getenv('SQL_HOST'),
-    port=os.getenv('SQL_PORT'),
-    user=os.getenv('SQL_USER'),
-    password=os.getenv('SQL_PASSWORD'),
-    database=os.getenv('SQL_DATABASE')
-)
-cursor = conn.cursor(dictionary=True)
 
 
 @app.route('/ping')
@@ -34,19 +26,10 @@ def ping():
 # @requires_auth
 def get_events():
     try:
-        proc_result = []
-        proc_description = []
-        cursor.callproc('STP_TRD2022_GET_EVENTS')
-        proc_data = cursor.stored_results()
-        for result in proc_data:
-            proc_result = result.fetchall()
-            proc_description = result.description
-            
-        # column_names = [column[0] for column in proc_description]
-        response = jsonify(proc_result)
-        return response
+        proc_result = events_svc.get_last_events()
+        return jsonify(proc_result)
     except Exception as e:
         print(e)
-        return e.msg, 500
-    finally:
-        conn.close()
+        return e.args[0], 500
+    # finally:
+    #     conn.close()
